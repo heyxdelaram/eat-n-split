@@ -3,7 +3,8 @@ import { BalanceMessage } from "./BalanceMessage";
 export function Friend({ friend, onSelect, onClose, isOpen }) {
   function handleSelect() {
     onSelect(friend);
-    onClose(isOpen);
+    //todo: fix this onclose function for when the select button gets closed
+    // onClose(true);
   }
   return (
     <li>
