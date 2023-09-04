@@ -1,18 +1,15 @@
 import { BalanceMessage } from "./BalanceMessage";
 
-export function Friend({ friend, onSelect, onClose, isOpen }) {
-  function handleSelect() {
-    onSelect(friend);
-    //todo: fix this onclose function for when the select button gets closed
-    // onClose(true);
-  }
+export function Friend({ friend, onSelect, selectedFriend }) {
+  const isSelected = friend.id === selectedFriend?.id;
+
   return (
-    <li>
+    <li className={isSelected ? "selected" : ""}>
       <img src={friend.image} />
       <h3>{friend.name}</h3>
       <BalanceMessage friend={friend} />
-      <button onClick={handleSelect} className="button">
-        {isOpen ? "Close" : "Select"}
+      <button onClick={() => onSelect(friend)} className="button">
+        {isSelected ? "Close" : "Select"}
       </button>
     </li>
   );

@@ -30,29 +30,25 @@ export default function App() {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [bill, setBill] = useState("");
   const [yExpense, setYExpense] = useState("");
-  const [isSplitFormOpen, setIsSplitFormOpen] = useState(false);
-
-  function ToggleSplitForm() {
-    setIsSplitFormOpen((curr) => !curr);
-  }
 
   function handleAddFriend(newFriend) {
     setFriends((friends) => [...friends, newFriend]);
+    setFriendFormOpen(false);
   }
   function handleSelect(friend) {
     if (bill || yExpense) {
       setBill("");
       setYExpense("");
     }
-    setSelectedFriend(friend);
+    setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
   }
 
-  function setFriendBalance(balance) {
-    console.log(typeof balance);
-
+  function setFriendBalance(value) {
     setFriends((friends) =>
       friends.map((friend) =>
-        friend.name === selectedFriend.name ? { ...friend, balance } : friend
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
       )
     );
   }
@@ -60,8 +56,7 @@ export default function App() {
     <div className="app">
       <div className="sidebar">
         <FriendsList
-          isOpen={isSplitFormOpen}
-          onClose={ToggleSplitForm}
+          selectedFriend={selectedFriend}
           onSelect={handleSelect}
           friends={friends}
         />
@@ -78,7 +73,7 @@ export default function App() {
           </button>
         )}
       </div>
-      {selectedFriend ? (
+      {selectedFriend && (
         <Form
           bill={bill}
           yExpense={yExpense}
@@ -87,7 +82,7 @@ export default function App() {
           friend={selectedFriend}
           changeFriendBalance={setFriendBalance}
         />
-      ) : null}
+      )}
     </div>
   );
 }

@@ -3,18 +3,20 @@ import { useState } from "react";
 export function AddFriendForm({ onAdd }) {
   const [friendName, setFriendName] = useState("");
   const [friendImage, setFriendImage] = useState(
-    "https://png.pngitem.com/pimgs/s/352-3524469_person-silhouette-hd-png-download.png"
+    "https://i.pravatar.cc/48?u=118836?=34"
   );
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!friendImage || !friendName) return;
 
+    const id = crypto.randomUUID();
+
     const newFriend = {
-      id: Date.now(),
+      id,
       balance: 0,
       name: friendName,
-      image: friendImage,
+      image: `${friendImage}?=${id}`,
     };
 
     console.log(newFriend);
@@ -28,7 +30,7 @@ export function AddFriendForm({ onAdd }) {
   return (
     <>
       <form onSubmit={handleSubmit} className="form-add-friend">
-        <label>👩🏼‍🤝‍🧑🏻 Friend's name</label>
+        <label>👩🏼‍🤝‍🧑🏻 Friend name</label>
         <input
           value={friendName}
           onChange={(e) => setFriendName(e.target.value)}
